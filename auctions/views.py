@@ -100,14 +100,17 @@ def create_listing(request):
         gunData = Category.objects.get(categoryName = gun)
         wearData = Wear.objects.get(WearName = wear)
         
-        startprice = float(round(startprice, 2)),
-        buyprice = float(round(buyprice, 2)),
+        buyprice = float(buyprice)
+
+        bidprices = bid(bidprice=int(startprice), user=currentuser)
+        bidprices.save()
+        
 
 
         listing = Listing(
             title = title,
             photo = photo,
-            startprice = startprice,
+            startprice = bidprices,
             buyprice = buyprice,
             wear = wearData,
             float = float(Float),
@@ -160,7 +163,7 @@ def addBid(request, Listing_id):
     isOwner = request.user.username == listingData.owner.username
     isWatch = request.user in listingData.watchlist.all()
     comments = Comment.objects.filter(comments = listingData)
-    if int(newBid) > listingData.startprice:
+    if int(newBid) > listingData.startprice.bidprice:
         updateBid = bid(user=request.user, bidprice=int(newBid))
         updateBid.save()
         listingData.startprice = updateBid
@@ -183,6 +186,9 @@ def addBid(request, Listing_id):
             "isOwner" : isOwner,
              "isWatch":isWatch
         }) 
+    
+
+
 
 def removeWatchlist(request, Listing_id):
     listingData = Listing.objects.get(pk=Listing_id)
