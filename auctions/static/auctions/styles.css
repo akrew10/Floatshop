@@ -1,0 +1,8 @@
+body {
+    padding: 10px;
+    overflow-x: auto;
+    
+}
+#card:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  }

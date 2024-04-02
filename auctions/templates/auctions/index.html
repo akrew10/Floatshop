@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style = "margin-bottom: 20px;">Active Listings</h2>
+    <form action="{% url 'category' %}" method="post">
+        {% csrf_token %}    
+        
+              <label for="hi">Choose a Category:</label>
+              <select  id="hi" name="category" style="width:200px; padding-left:20px; padding-bottom:3px; margin-bottom:20px; height: 40px; overflow-y:auto;">
+                {% for gun in guns %}
+                  <option style="overflow-y:scroll;" value="{{ gun }}">{{ gun }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit"> Select </button>
+         
+            </form>
+              
+             
+
+  
+
+    <div class="row mx 3" >
+    {% for listing in listings %}
+    <a href="{% url 'listing' listing.id %}" style="text-decoration: none">
+    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem; margin-left: 10px;" on  id="card">
+        <img class="card-img-top" src="{{listing.photo}}" alt="Card image cap" style="width: 300px; height:300px; ">
+        
+        <div class="card-body" style="background-color: rgb(78, 78, 78); ">
+        {% if listing.StatTrak %}
+        <p style="background-color: yellow; color:black; font-family:'Courier New';  text-align: center; border-radius: 100px; ">StatTrak</p>
+        {% else %}
+        <p style="border-radius: 100px; margin-top: 40px;"></p>
+        {% endif %}
+          <h5 class="card-title">{{listing.title}}</h5>
+          {{listing.wear}}
+          <p class="card-text"> Bidding price: ${{listing.startprice}}</p>
+         Buy Out price: ${{listing.buyprice}}
+          
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
