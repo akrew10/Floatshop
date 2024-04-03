@@ -188,6 +188,22 @@ def addBid(request, Listing_id):
         }) 
     
 
+def buyOut(request, Listing_id):
+    listingData = Listing.objects.get(pk=Listing_id)
+    listingData.Active = False
+    listingData.save()
+    comments = Comment.objects.filter(comments = listingData)
+    isOwner = request.user.username == listingData.owner.username
+        
+    return render(request, "auctions/listing.html", {
+            "message" : "Auction bought out!",
+            "listing": listingData,
+            "update": True,
+            "allComments": comments,
+            "isOwner" : isOwner,
+            "message": "Auction Closed"
+        }) 
+    
 
 
 def removeWatchlist(request, Listing_id):

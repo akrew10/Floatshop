@@ -20,7 +20,10 @@
 
 <img  src="{{listing.photo}}"  style="width: 360px; height:360px;"><img>
 <h5>{{listing.title}}</h5>
-<h2>${{listing.startprice}}</h2>
+<h2>Current Bid: </h2>
+<h3>${{listing.startprice}}</h3>
+<h2>Buy Out Price:</h2>
+<h3>${{listing.buyprice}}</h3>
 <p>Owner: {{listing.owner}}</p>
 
 <div>
@@ -34,6 +37,14 @@
                 <label for="price">Add Bid</label>
                 <input type="number" min="{{listing.startprice }}" name="newBid" placeholder="Add New Bid">
                 <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+
+    </form>
+    <form action="{% url 'buyOut' listing.id %}" method="post">
+        {% csrf_token %}
+        <div class ="form-group">
+                
+                <button type="submit" class="btn btn-secondary">Buy Out</button>
         </div>
 
     </form>
